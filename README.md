@@ -1,22 +1,35 @@
-# next-template
+# cert-sh-ui
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+A nicer frontend to crt.sh, which works _most_ of the time.
+
+## Requirements
+
+This can be run via Docker, or directly on a host with Node.JS 16+ installed. You'll also need a Redis instance running.
 
 ## Usage
 
+### Docker
+
 ```bash
-npx create-next-app -e https://github.com/shadcn/next-template
+docker run -p 3000:3000 -d --name cert-sh-ui ghcr.io/behnh/cert-sh-ui:latest -e REDIS_URL=<your_redis_url> -e POSTGRES_USERNAME=guest -e POSTGRES_HOST=crt.sh POSTGRES_DATABASE=certwatch
 ```
 
-## Features
+### Node.JS
 
-- Next.js 13 App Directory
-- Radix UI Primitives
-- Tailwind CSS
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Tailwind CSS class sorting, merging and linting.
+Make a copy of `.env.example` and name it `.env`. Fill in the values for your Redis and Postgres instances.
+```
+REDIS_URL=redis://localhost:6379
+POSTGRES_USERNAME=guest
+POSTGRES_HOST=crt.sh
+POSTGRES_DATABASE=certwatch
+```
 
-## License
+Then run the following commands:
 
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+```bash
+npm install
+npm run build
+npm start
+```
+
+The server will be listening on port 3000 by default.
