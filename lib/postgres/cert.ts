@@ -1,9 +1,12 @@
+import { getCache } from "../redis/redis";
 import sql from "./db"
 
 const lookupCerts = async (domain: string) => {
-    console.log('looking up certs for', domain);
-    try {
-        const certs = await sql`
+  console.log('looking up certs for', domain);
+  const cache = await getCache();
+
+  try {
+    const certs = await sql`
     WITH ci AS (
     SELECT min(sub.CERTIFICATE_ID) ID,
            min(sub.ISSUER_CA_ID) ISSUER_CA_ID,
@@ -40,13 +43,16 @@ const lookupCerts = async (domain: string) => {
     ORDER BY le.ENTRY_TIMESTAMP DESC NULLS LAST;
     `
 
-        return certs
-    } catch (e) {
-        console.log(e)
-        return {
-            error: e,
-        }
+    cache.setEx(domain, 60 * 60 * 6, JSON.stringify(certs));
+
+    return certs
+  } catch (e) {
+    console.log(e)
+    console.log('error looking up certs for', domain)
+    return {
+      error: e,
     }
+  }
 }
 
 export default lookupCerts
