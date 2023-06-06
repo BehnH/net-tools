@@ -42,7 +42,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/behnh/cert-sh-ui:gh-${{ steps.ev.outputs.branchNameContainer }}
-            ghcr.io/behnh/cert-sh-uio:gh-${{ steps.ev.outputs.branchNameContainer }}-${{ steps.ev.outputs.shortHash }}
+            ghcr.io/behnh/cert-sh-ui:gh-${{ steps.ev.outputs.branchNameContainer }}-${{ steps.ev.outputs.shortHash }}
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         continue-on-error: true
