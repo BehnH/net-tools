@@ -8,10 +8,12 @@ import { useSearchParams } from "next/navigation";
 export function Certs() {
   const params = useSearchParams();
 
-  const window = params.get("domain") ?? "";
+  const domain = params.get("domain") ?? "";
+  const excludeExpired = params.get("excludeExpired") ?? "false";
+  const includeSql = params.get("includeSql") ?? "false";
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { data } = useSWR(`/api/search?domain=${window}`, (apiUrl: string) => fetch(apiUrl).then(res => res.json()));
+  const { data } = useSWR(`/api/search?domain=${domain}&excludeExpired=${excludeExpired}&includeSql=${includeSql}`, (apiUrl: string) => fetch(apiUrl).then(res => res.json()));
   if (!data) return null;
 
   return (
