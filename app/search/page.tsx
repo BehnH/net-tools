@@ -1,9 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Certs } from "@/components/certs";
 import { Suspense } from "react";
+import { SearchForm } from "@/components/search-form";
 
 export default async function SearchPage() {
 
@@ -18,17 +17,9 @@ export default async function SearchPage() {
             Compiling data from crt.sh into a nicer, easier to use app.
           </p>
         </div>
-        <Suspense>
-          <div className="flex max-w-lg gap-4">
-            <Input type="text" id="search" placeholder="Enter a full, or part of a, domain" />
-            <Button
-              type="submit"
-              onClick={() => {
-                window.location.href = `/search?domain=${(document.getElementById("search") as HTMLInputElement).value}`
-              }}
-            >Search</Button>
-          </div>
-        </Suspense>
+        <div className="max-w-xl">
+          <SearchForm />
+        </div>
       </section>
       <Suspense fallback={<div>Loading...</div>}>
         <Certs />
